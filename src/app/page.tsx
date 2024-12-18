@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation'
 import { authenticate } from "@/utils/auth"
 import { Card, CardContent } from "@/components/ui/card"
 import { LoginForm } from "@/components/login-form"
-
+import LoginImage from "../../public/photo_2024-12-17_18-18-53.jpg"
+import Image from 'next/image'
 export default function LoginPage() {
   async function loginUser(prevState: any, formData: FormData) {
     'use server'
@@ -24,11 +25,11 @@ export default function LoginPage() {
       <div className="w-full max-w-sm md:max-w-3xl">
         <Card className="overflow-hidden">
           <CardContent className="grid p-0 md:grid-cols-2">
-            <div className="relative hidden bg-muted md:block">
-              <img
-                src="/placeholder.svg"
+            <div className="bg-muted bg-white flex justify-center items-center ">
+              <Image
+                src={LoginImage}
                 alt="Login background"
-                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                className="hidden sm:block dark:brightness-[0.2] dark:grayscale"
               />
             </div>
             <div className="p-6 md:p-8">

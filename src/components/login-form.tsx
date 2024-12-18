@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LucideLoader2 } from 'lucide-react'
-
+import Norton from "../../public/Norton Logo.png"
+import Image from 'next/image'
 export function LoginForm({ loginAction }: { loginAction: (prevState: any, formData: FormData) => Promise<{ error: string } | undefined> }) {
   const [state, formAction] = useFormState(loginAction, null)
   const { pending } = useFormStatus()
@@ -13,8 +14,8 @@ export function LoginForm({ loginAction }: { loginAction: (prevState: any, formD
   return (
     <form action={formAction} className="flex flex-col gap-6">
       <div className="flex flex-col items-center text-center">
-        <img
-          src="/placeholder.svg?height=50&width=50"
+        <Image
+          src={Norton}
           alt="Logo"
           width={50}
           height={50}
