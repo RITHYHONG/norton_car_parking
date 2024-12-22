@@ -1,6 +1,9 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
 import { Settings, ChevronsUpDown, LogOut } from 'lucide-react'
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 import {
   Avatar,
@@ -33,6 +36,16 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login');
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -60,19 +73,16 @@ export function NavUser({
             align="end"
             sideOffset={4}
           >
-       
-
             <DropdownMenuGroup>
-            
               <DropdownMenuItem>
-                <Settings />
-                Settings
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem onSelect={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

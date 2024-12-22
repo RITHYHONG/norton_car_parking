@@ -7,7 +7,7 @@ import { useFormStatus } from 'react-dom'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { LucideLoader2 } from 'lucide-react'
+import { LucideLoader2, Eye, EyeOff } from 'lucide-react'
 import Norton from "../../public/Norton Logo.png"
 import Image from 'next/image'
 
@@ -17,24 +17,20 @@ interface LoginFormProps {
 
 export function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [error, setError] = useState<string | null>(null);
-  // const { pending } = useFormStatus()
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const { pending } = useFormStatus()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
-  
     const formData = new FormData(event.currentTarget);
     const email = formData.get('username') as string;
     const password = formData.get('password') as string;
-  
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       onLoginSuccess();
     } catch (error) {
       setError('Invalid email or password');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -58,18 +54,36 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
             Forgot your password?
           </a>
         </div>
-        <Input id="password" name="password" type="password" required />
+        <div className="relative">
+          <Input 
+            id="password" 
+            name="password" 
+            type={showPassword ? "text" : "password"} 
+            required 
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-2 top-1/2 -translate-y-1/2"
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4 text-gray-500" />
+            ) : (
+              <Eye className="h-4 w-4 text-gray-500" />
+            )}
+          </button>
+        </div>
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
-  {loading ? (
-    <>
-      <LucideLoader2 className="mr-2 h-4 w-4 animate-spin" />
-      Logging in...
-    </>
-  ) : (
-    'Login'
-  )}
-</Button>
+      <Button type="submit" className="w-full" disabled={pending}>
+        {pending ? (
+          <>
+            <LucideLoader2 className="mr-2 h-4 w-4 animate-spin" />
+            Logging in...
+          </>
+        ) : (
+          'Login'
+        )}
+      </Button>
       {error && (
         <div className="text-center text-sm text-red-500">
           {error}
