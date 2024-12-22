@@ -15,16 +15,14 @@ import {
 } from "@/components/ui/sidebar"
 import { ThemeProvider } from "next-themes"
 import { ThemeToggle } from "../../components/theme-toggle"
-import { CircleParking, Car, CircleDollarSign } from "lucide-react"
+import { CircleParking, Car, CircleDollarSign, ChevronsRight } from "lucide-react"
 import NumberTicker from "@/components/magicui/number-ticker";
 import ParkingSlot from '@/components/ParkingSlot'
 import { getParkingSlots } from '@/app/actions/api'
-
+import Link from "next/link";
 const TOTAL_SLOTS = 20
-export default async function Page() {
+export default async function DashboardPage() {
 
-
-    const slots = await getParkingSlots()
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
@@ -99,14 +97,15 @@ export default async function Page() {
               </div>
             </div>
             <div className="flex-1 rounded-xl bg-muted/50 md:min-h-min" >
-            <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Car Parking Management</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {slots.map((slot) => (
-          <ParkingSlot key={slot.id} slot={slot} />
-        ))}
-      </div>
-    </div>
+              <div className="container mx-auto p-4">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-2xl font-bold mb-4">Main Space </h1>
+                  <Link href="/slots" className=" flex items-start justify-center my-auto"> See more<ChevronsRight size={25} /></Link>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {/* <ParkingSlot/> */}
+                </div>
+              </div>
             </div>
           </div>
         </SidebarInset>

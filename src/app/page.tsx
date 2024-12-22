@@ -1,48 +1,117 @@
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { authenticate } from "@/utils/auth"
-import { Card, CardContent } from "@/components/ui/card"
-import { LoginForm } from "@/components/login-form"
-import LoginImage from "../../public/photo_2024-12-17_18-18-53.jpg"
-import Image from 'next/image'
-export default function LoginPage() {
-  async function loginUser(prevState: any, formData: FormData) {
-    'use server'
+import { AppSidebar } from "@/components/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { ThemeProvider } from "next-themes"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { CircleParking, Car, CircleDollarSign, ChevronsRight } from "lucide-react"
+import NumberTicker from "@/components/magicui/number-ticker";
+import ParkingSlot from '@/components/ParkingSlot'
+import { getParkingSlots } from '@/app/actions/api'
+import Link from "next/link";
+const TOTAL_SLOTS = 20
+export default async function Page() {
 
-    const username = formData.get('username') as string
-    const password = formData.get('password') as string
-
-    if (authenticate(username, password)) {
-      cookies().set('user', username, { httpOnly: true, secure: true })
-      redirect('/dashboard')
-    }
-
-    return { error: 'Invalid username or password' }
-  }
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
-      <div className="w-full max-w-sm md:max-w-3xl">
-        <Card className="overflow-hidden">
-          <CardContent className="grid p-0 md:grid-cols-2">
-            <div className="bg-muted bg-white flex justify-center items-center ">
-              <Image
-                src={LoginImage}
-                alt="Login background"
-                className="hidden sm:block dark:brightness-[0.2] dark:grayscale"
-              />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Overview</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
             </div>
-            <div className="p-6 md:p-8">
-              <LoginForm loginAction={loginUser} />
+            <div className="mr-4">
+              <ThemeToggle />
             </div>
-          </CardContent>
-        </Card>
-        <div className="mt-4 text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-          By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-          and <a href="#">Privacy Policy</a>.
-        </div>
-      </div>
-    </div>
+          </header>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center h-32 w-full">
+                <div className="flex items-center w-[80%] justify-between rounded-md p-4 border-b-2 border-gray-500">
+                  <div className="flex-1 space-y-1">
+                    <p className="text-xl md:text-xl leading-none">
+                      Car Today
+                    </p>
+                    <p className="text-2xl md:text-xl font-bold text-slate-100 text-muted-foreground">
+                      <NumberTicker value={1233} />
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center bg-blue-400 p-4 rounded-full">
+                    <Car size={35} />
+                  </div>
+                </div>
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center h-32 w-full">
+                <div className="flex items-center w-[80%] justify-between rounded-md p-4  border-b-2 border-gray-500">
+                  <div className="flex-1 space-y-1">
+                    <p className="text-xl md:text-xl leading-none">
+                      Parked Cars
+                    </p>
+                    <p className="text-2xl md:text-xl font-bold text-slate-100 text-muted-foreground">
+                      <NumberTicker value={34} />
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center bg-blue-400 p-4 rounded-full">
+                    <CircleParking size={35} />
+                  </div>
+                </div>
+              </div>
+              <div className="aspect-video rounded-xl bg-muted/50 flex items-center justify-center h-32 w-full">
+                <div className="flex items-center w-[80%] justify-between rounded-md p-4 border-b-2 border-gray-500">
+                  <div className="flex-1 space-y-1">
+                    <p className="text-xl md:text-xl leading-none">
+                      Revenue
+                    </p>
+                    <p className="text-2xl md:text-xl font-bold text-slate-100 text-muted-foreground">
+                      <NumberTicker value={2333} /><span>$</span>
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center bg-blue-400 p-4 rounded-full">
+                    <CircleDollarSign size={35} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 rounded-xl bg-muted/50 md:min-h-min" >
+              <div className="container mx-auto p-4">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-2xl font-bold mb-4">Main Space </h1>
+                  <Link href="/slots" className=" flex items-start justify-center my-auto"> See more<ChevronsRight size={25} /></Link>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {/* <ParkingSlot/> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </ThemeProvider>
   )
 }
 
