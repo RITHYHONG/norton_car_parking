@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { LucideLoader2, Eye, EyeOff } from 'lucide-react'
 import Norton from "../../public/Norton Logo.png"
 import Image from 'next/image'
-
+import { useRouter } from 'next/navigation'
 interface LoginFormProps {
   onLoginSuccess: () => void;
 }
@@ -19,6 +19,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { pending } = useFormStatus()
+  const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
