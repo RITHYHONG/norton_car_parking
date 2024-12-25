@@ -1,3 +1,17 @@
+
+'use client'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import ParkingFloor from '@/components/ParkingFloor'
+import { Plus, MoreVertical } from 'lucide-react'
+import { useState } from 'react'
+
+
+
+
 import { AppSidebar } from "../../components/app-sidebar"
 import {
   Breadcrumb,
@@ -22,6 +36,10 @@ import { getParkingSlots } from '@/app/actions/api'
 import Link from "next/link";
 const TOTAL_SLOTS = 20
 export default async function DashboardPage() {
+
+  const [floors, setFloors] = useState([
+    { id: "1", name: "First Floor", slots: 20 }
+  ])
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -100,11 +118,22 @@ export default async function DashboardPage() {
               <div className="container mx-auto p-4">
                 <div className="flex justify-between items-center">
                   <h1 className="text-2xl font-bold mb-4">Main Space </h1>
-                  <Link href="/slots" className=" flex items-start justify-center my-auto"> See more<ChevronsRight size={25} /></Link>
+                  <Link href={"/car-slots"} className=" flex items-start justify-center my-auto"> See more<ChevronsRight size={25} /></Link>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                  {/* <ParkingSlot/> */}
-                </div>
+                <Tabs defaultValue="1" className="w-full">
+            <TabsList>
+              {floors.map((floor) => (
+                <TabsTrigger key={floor.id} value={floor.id} className="flex items-center">
+                  {floor.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {floors.map((floor) => (
+              <TabsContent key={floor.id} value={floor.id}>
+                <ParkingFloor floorId={floor.id} floorName={floor.name} totalSlots={floor.slots} />
+              </TabsContent>
+            ))}
+          </Tabs>
               </div>
             </div>
           </div>
