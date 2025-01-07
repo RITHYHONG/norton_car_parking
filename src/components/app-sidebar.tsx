@@ -40,6 +40,11 @@ const data = {
       icon: Car,
     },
     {
+      title: "Car Logs",
+      url: "/car-logs",
+      icon: Car,
+    },
+    {
       title: "Bills",
       url: "/bills",
       icon: Receipt,

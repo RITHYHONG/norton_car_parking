@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "auto-car-parking-admin",
+    "public": "src/app",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
