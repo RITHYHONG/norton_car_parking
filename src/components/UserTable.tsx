@@ -65,7 +65,7 @@ export function UserTable({ searchQuery }: UserTableProps) {
             <TableHead className="hidden md:table-cell">Role</TableHead>
             <TableHead className="hidden md:table-cell">Status</TableHead>
             <TableHead>Last Login</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="text-right py-2 flex justify-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

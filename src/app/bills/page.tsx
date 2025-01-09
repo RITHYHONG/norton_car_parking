@@ -9,11 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Search, Download, CreditCard } from 'lucide-react'
 import { usePDF } from 'react-to-pdf'
 
-
-
-
-
-
 import { AppSidebar } from "../../components/app-sidebar"
 import {
   Breadcrumb,

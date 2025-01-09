@@ -77,9 +77,9 @@ export default async function BillPage() {
                       <Search className="h-4 w-4" />
                     </Button>
                   </div>
-                  <Button onClick={() => setIsAddUserOpen(true)}>
+                  {/* <Button onClick={() => setIsAddUserOpen(true)}>
                     <UserPlus className="mr-2 h-4 w-4" /> Add New User
-                  </Button>
+                  </Button> */}
                 </div>
               </CardContent>
             </Card>

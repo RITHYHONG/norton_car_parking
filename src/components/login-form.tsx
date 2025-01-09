@@ -70,7 +70,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
         <Image src={Norton} alt="Logo" width={50} height={50} className="mb-4" />
         <h1 className="text-2xl font-bold">Welcome back</h1>
         <p className="text-balance text-muted-foreground">
-          Login to your Acme Inc account
+          Login to Automatic Car Parking System
         </p>
       </div>
       <div className="grid gap-2">
@@ -133,13 +133,6 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
           {error}
         </div>
       )}
-
-      <div className="text-center text-sm">
-        Don't have an account?{" "}
-        <a href="#" className="underline underline-offset-4">
-          Sign up
-        </a>
-      </div>
     </form>
   )
 }

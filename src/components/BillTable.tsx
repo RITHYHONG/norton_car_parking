@@ -61,7 +61,7 @@ export default function BillTable() {
             <TableHead className="py-2 hidden md:table-cell">Duration</TableHead>
             <TableHead className="text-right py-2 hidden md:table-cell">Amount</TableHead>
             <TableHead className="py-2">Status</TableHead>
-            <TableHead className="text-right py-2">Action</TableHead>
+            <TableHead className="text-right py-2 flex justify-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
