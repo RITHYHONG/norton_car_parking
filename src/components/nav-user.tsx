@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { Settings, ChevronsUpDown, LogOut } from 'lucide-react'
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import Image from 'next/image'  // Add this import
 
 import {
   Avatar,
@@ -33,7 +32,7 @@ export function NavUser({
   user: {
     name: string
     email: string
-    avatar: any  // Update type to allow StaticImageData
+    avatar: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -58,10 +57,8 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground dark:text-gray-300 dark:hover:bg-gray-700"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar.src} alt={user.name} />
-                <AvatarFallback className="rounded-lg">
-                  {user.name.substring(0, 2).toUpperCase()}
-                </AvatarFallback>
+                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>

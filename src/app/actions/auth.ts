@@ -9,8 +9,6 @@ export async function loginUser(prevState: any, formData: FormData) {
   const password = formData.get('password') as string
 
   if (authenticate(username, password)) {
-    // In a real application, you'd want to set a secure, HTTP-only cookie
-    // and possibly store a session in a database
     cookies().set('user', username, { httpOnly: true, secure: true })
     redirect('/dashboard')
   }

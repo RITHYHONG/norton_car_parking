@@ -81,21 +81,23 @@ export function UserTable({ searchQuery }: UserTableProps) {
                   </Avatar>
                   <div className="flex flex-col">
                     <span className="font-medium">{user.name}</span>
-                    <span className="text-sm text-muted-foreground hidden md:inline">
-                      {user.email}
-                    </span>
+                 
                   </div>
                 </div>
               </TableCell>
               <TableCell className="hidden md:table-cell">{user.email}</TableCell>
               <TableCell className="hidden md:table-cell">{user.role}</TableCell>
               <TableCell className="hidden md:table-cell">
-                <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
                   {user.status}
                 </Badge>
+
+                {/* <Badge variant={bill.status === 'Paid' ? 'default' : 'destructive'}>
+                  {bill.status}
+                </Badge> */}
               </TableCell>
               <TableCell>{user.lastLogin}</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right flex justify-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">

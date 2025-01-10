@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { gauge, Car, Command, GalleryVerticalEnd, Receipt, Users } from 'lucide-react'
-import ProfilePic from "../../public/New Project (1).png"  // Add this import
 
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
@@ -20,7 +19,7 @@ const data = {
   user: {
     name: "Rithyhong",
     email: "rithyhong@gmail.com",
-    avatar: ProfilePic,  // Update this line
+    avatar: "../../public/New Project (1).png",
   },
   teams: [
     {

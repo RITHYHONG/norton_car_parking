@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -41,10 +41,14 @@ export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([])
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null)
 
-  useState(() => {
+  useEffect(() => {
     const fetchBills = async () => {
-      const fetchedBills = await getBills()
-      setBills(fetchedBills)
+      try {
+        const fetchedBills = await getBills()
+        setBills(fetchedBills)
+      } catch (error) {
+        console.error('Error fetching bills:', error)
+      }
     }
     fetchBills()
   }, [])
@@ -74,11 +78,11 @@ export default function BillTable() {
               <TableCell className="py-2 hidden md:table-cell">{bill.duration}</TableCell>
               <TableCell className="text-right py-2 hidden md:table-cell">${bill.amount.toFixed(2)}</TableCell>
               <TableCell className="py-2">
-                <Badge variant={bill.status === 'Paid' ? 'success' : 'destructive'}>
+                <Badge variant={bill.status === 'Paid' ? 'default' : 'destructive'}>
                   {bill.status}
                 </Badge>
               </TableCell>
-              <TableCell className="text-right py-2">
+              <TableCell className="text-right py-2 flex justify-center">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -123,7 +127,7 @@ export default function BillTable() {
                               </div>
                               <div className="grid grid-cols-2 items-center gap-4">
                                 <span className="font-bold">Status:</span>
-                                <Badge variant={selectedBill.status === 'Paid' ? 'success' : 'destructive'}>
+                                <Badge variant={selectedBill.status === 'Paid' ? 'default' : 'destructive'}>
                                   {selectedBill.status}
                                 </Badge>
                               </div>

@@ -69,11 +69,7 @@ export default function ParkingPage() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Overview</BreadcrumbPage>
+                    <BreadcrumbLink href="#">Car Slots</BreadcrumbLink>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -83,7 +79,7 @@ export default function ParkingPage() {
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="flex items-center justify-between mb-4 ">
+          <div className="flex items-center justify-between mb-4">
         <Input
           className="text-2xl font-bold w-1/2"
           value={title}
@@ -164,7 +160,7 @@ export default function ParkingPage() {
                 ))}
               </TabsList>
               {floors.map((floor) => (
-                <TabsContent key={floor.id} value={floor.id} >
+                <TabsContent key={floor.id} value={floor.id}>
                   <ParkingFloor floorId={floor.id} floorName={floor.name} totalSlots={floor.slots} />
                 </TabsContent>
               ))}

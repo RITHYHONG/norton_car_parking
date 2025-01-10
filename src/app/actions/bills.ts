@@ -11,8 +11,7 @@ interface Bill {
 }
 
 export async function getBills(): Promise<Bill[]> {
-  // In a real application, you would fetch this data from your database
-  // For now, we'll return some mock data
+  
   return [
     {
       id: '1',
@@ -41,7 +40,6 @@ export async function getBills(): Promise<Bill[]> {
       amount: 40.00,
       status: 'Paid'
     },
-    // Add more mock data as needed
   ]
 }
 

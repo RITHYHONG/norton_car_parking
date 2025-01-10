@@ -32,7 +32,6 @@ export async function GET() {
       status: 'Exited',
       licensePlateImage: '/placeholder.svg?height=200&width=400'
     },
-    // Add more mock data as needed
   ];
 
   return NextResponse.json(carLogs);

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import CarLogsTable from './components/CarLogsTable'
+import CarLogsTable from '../../components/CarLogsTable'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -78,7 +78,7 @@ export default function BillPage() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">User Management</BreadcrumbLink>
+                    <BreadcrumbLink href="#">Car Logs</BreadcrumbLink>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

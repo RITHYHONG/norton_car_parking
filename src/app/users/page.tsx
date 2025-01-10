@@ -23,8 +23,10 @@ import {
 } from "@/components/ui/sidebar"
 import { ThemeProvider } from "next-themes"
 import { ThemeToggle } from "../../components/theme-toggle"
-export default async function BillPage() {
+
+export default function UserPage() { 
   const [searchQuery, setSearchQuery] = useState('')
+
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>

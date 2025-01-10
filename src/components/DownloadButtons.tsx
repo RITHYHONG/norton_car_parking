@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 
 export default function DownloadButtons() {
   const handleDownload = (format: 'csv' | 'pdf') => {
-    // TODO: Implement download functionality
     console.log(`Downloading ${format} file`);
   };
 

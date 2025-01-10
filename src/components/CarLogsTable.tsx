@@ -45,7 +45,7 @@ export default function CarLogsTable({ logs }: CarLogsTableProps) {
             <TableHead>Exit Time</TableHead>
             <TableHead>Slot Number</TableHead>
             <TableHead>License Plate Image</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead className="text-right py-2 flex justify-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -64,7 +64,7 @@ export default function CarLogsTable({ logs }: CarLogsTableProps) {
                   className="object-cover rounded-md"
                 />
               </TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right flex justify-center items-center">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
