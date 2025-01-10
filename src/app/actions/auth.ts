@@ -9,7 +9,8 @@ export async function loginUser(prevState: any, formData: FormData) {
   const password = formData.get('password') as string
 
   if (authenticate(username, password)) {
-    cookies().set('user', username, { httpOnly: true, secure: true })
+    const cookieStore = await cookies()
+    cookieStore.set('user', username, { httpOnly: true, secure: true })
     redirect('/dashboard')
   }
 
