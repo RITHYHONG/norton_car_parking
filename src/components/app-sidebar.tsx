@@ -20,7 +20,7 @@ const data = {
   user: {
     name: "Rithyhong",
     email: "rithyhong@gmail.com",
-    avatar: ProfilePic,  // Update this line
+    avatar: ProfilePic.src,  // Update this line
   },
   teams: [
     {
