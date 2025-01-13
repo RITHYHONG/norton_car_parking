@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Car,FileClock, Command, GalleryVerticalEnd, Receipt, Users } from 'lucide-react'
-import ProfilePic from "../../public/New Project (1).png"  // Add this import
+import ProfilePic from "../../public/New Project (1).png"
 
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"

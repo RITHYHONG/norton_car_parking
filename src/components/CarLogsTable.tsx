@@ -1,6 +1,6 @@
 "use client";
 import Image from 'next/image';
-import { CarLog } from '@/app/actions/carLog';
+import { CarLog } from '@/types/carLog';
 import { formatDate } from '@/utils/dateFormatter';
 import {
   Table,

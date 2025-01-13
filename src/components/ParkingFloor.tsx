@@ -2,14 +2,22 @@
 import { useEffect, useState } from 'react'
 import ParkingSlot from './ParkingSlot'
 import { getParkingSlots } from '@/app/actions/api'
+
+interface ParkingSlot {
+  id: number;
+  number: number;
+  isOccupied: boolean;
+  floorId: string;
+}
+
 interface ParkingFloorProps {
-  floorId: string
-  floorName: string
-  totalSlots: number
+  floorId: string;
+  floorName: string;
+  totalSlots: number;
 }
 
 export default function ParkingFloor({ floorId, floorName, totalSlots }: ParkingFloorProps) {
-  const [slots, setSlots] = useState([])
+  const [slots, setSlots] = useState<ParkingSlot[]>([]);
 
   useEffect(() => {
     const fetchSlots = async () => {

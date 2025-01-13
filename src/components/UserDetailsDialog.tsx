@@ -51,7 +51,7 @@ import {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Status</p>
-                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                  <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
                     {user.status}
                   </Badge>
                 </div>

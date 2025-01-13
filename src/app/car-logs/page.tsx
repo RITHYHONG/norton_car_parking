@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { CarLog } from '@/types/carLog'
 import CarLogsTable from '../../components/CarLogsTable'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

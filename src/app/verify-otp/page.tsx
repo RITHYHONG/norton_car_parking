@@ -2,45 +2,57 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { applyActionCode } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { applyActionCode } from "firebase/auth"
+import { auth } from "@/lib/firebase"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function VerifyOTP() {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [error, setError] = useState<string | null>(null);
-  const [isVerifying, setIsVerifying] = useState(false);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const router = useRouter();
+  const [otp, setOtp] = useState(['', '', '', '', '', ''])
+  const [error, setError] = useState<string | null>(null)
+  const [isVerifying, setIsVerifying] = useState(false)
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  const router = useRouter()
 
   useEffect(() => {
-    const email = sessionStorage.getItem('userEmail');
+    const email = sessionStorage.getItem('userEmail')
     if (!email) {
-      router.replace('/login');
+      router.replace('/login')
     }
-  }, [router]);
+  }, [router])
 
   const verifyOtpCode = async (otpCode: string) => {
     try {
-      await applyActionCode(auth, otpCode);
-      sessionStorage.removeItem('userEmail');
-      router.push('/dashboard');
+      await applyActionCode(auth, otpCode)
+      sessionStorage.removeItem('userEmail')
+      router.push('/dashboard')
     } catch (error) {
-      console.error('Verification error:', error);
-      setError('Invalid or expired code. Please try again.');
+      console.error('Verification error:', error)
+      setError('Invalid or expired code. Please try again.')
     } finally {
-      setIsVerifying(false);
+      setIsVerifying(false)
     }
-  };
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsVerifying(true);
-    setError(null);
+    e.preventDefault()
+    setIsVerifying(true)
+    setError(null)
 
-    const otpCode = otp.join('');
-    verifyOtpCode(otpCode);
-  };
+    const otpCode = otp.join('')
+    verifyOtpCode(otpCode)
+  }
+
+  const handleInputChange = (index: number, value: string) => {
+    const newOtp = [...otp]
+    newOtp[index] = value
+    setOtp(newOtp)
+
+    // Move to next input if value is entered
+    if (value && index < 5 && inputRefs.current[index + 1]) {
+      inputRefs.current[index + 1]?.focus()
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -58,15 +70,10 @@ export default function VerifyOTP() {
                     type="text"
                     maxLength={1}
                     value={digit}
-                    onChange={(e) => {
-                      const newOtp = [...otp];
-                      newOtp[index] = e.target.value;
-                      setOtp(newOtp);
-                      if (e.target.value && index < 5) {
-                        inputRefs.current[index + 1]?.focus();
-                      }
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    ref={(el) => {
+                      inputRefs.current[index] = el
                     }}
-                    ref={(el) => (inputRefs.current[index] = el)}
                     className="w-12 h-12 text-center border border-gray-300 rounded mx-1"
                   />
                 ))}
@@ -80,7 +87,7 @@ export default function VerifyOTP() {
               </button>
               <button
                 onClick={() => router.push('/login')}
-                className="mt-4 text-blue-500 hover:underline"
+                className="block w-full mt-4 text-blue-500 hover:underline"
               >
                 Return to Login
               </button>
@@ -89,5 +96,5 @@ export default function VerifyOTP() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

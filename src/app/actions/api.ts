@@ -11,20 +11,13 @@ interface ParkingSlot {
 let parkingSlots: ParkingSlot[] = []
 
 export async function getParkingSlots(floorId: string, totalSlots: number): Promise<ParkingSlot[]> {
-  const floorSlots = parkingSlots.filter(slot => slot.floorId === floorId)
-  
-  if (floorSlots.length !== totalSlots) {
-    parkingSlots = parkingSlots.filter(slot => slot.floorId !== floorId)
-    const newSlots = Array.from({ length: totalSlots }, (_, i) => ({
-      id: parseInt(floorId) * 1000 + i + 1,
-      number: i + 1,
-      isOccupied: Math.random() < 0.5,
-      floorId: floorId
-    }))
-    parkingSlots.push(...newSlots)
-  }
-
-  return parkingSlots.filter(slot => slot.floorId === floorId)
+  // Mock data for now
+  return Array.from({ length: totalSlots }, (_, index) => ({
+    id: index + 1,
+    number: index + 1,
+    isOccupied: Math.random() > 0.5,
+    floorId,
+  }));
 }
 
 export async function updateSlotStatus(slotId: number, floorId: string, isOccupied: boolean): Promise<{ success: boolean, message: string }> {

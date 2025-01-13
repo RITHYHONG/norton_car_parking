@@ -4,7 +4,7 @@ import { useState } from 'react'
 import BillTable from '@/components/BillTable'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DatePickerWithRange } from '@/components/ui/DateRangePicker'
+import { DatePickerWithRange, DateRange } from '@/components/ui/DateRangePicker'
 import { Card, CardContent } from "@/components/ui/card"
 import { Search, Download } from 'lucide-react'
 import { usePDF } from 'react-to-pdf'
@@ -26,7 +26,10 @@ import { ThemeToggle } from "../../components/theme-toggle"
 
 export default function BillPage() {
   const { toPDF, targetRef } = usePDF({filename: 'parking-bills.pdf'});
-  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({ from: new Date(), to: new Date() })
+  const [dateRange, setDateRange] = useState<DateRange>({ 
+    from: new Date(), 
+    to: new Date() 
+  });
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
