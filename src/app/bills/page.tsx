@@ -26,7 +26,7 @@ import { ThemeToggle } from "../../components/theme-toggle"
 
 export default function BillPage() {
   const { toPDF, targetRef } = usePDF({filename: 'parking-bills.pdf'});
-  const [dateRange, setDateRange] = useState<DateRange>({ 
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({ 
     from: new Date(), 
     to: new Date() 
   });
@@ -45,7 +45,6 @@ export default function BillPage() {
                   <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink href="#">Bills</BreadcrumbLink>
                   </BreadcrumbItem>
-                
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
