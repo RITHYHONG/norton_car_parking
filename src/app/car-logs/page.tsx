@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Search, Download, Car, CalendarRange, ArrowUpDown } from 'lucide-react'
-import { DatePickerWithRange } from "@/components/ui/DateRangePicker"
+import { DatePickerWithRange, DateRange } from '@/components/ui/DateRangePicker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AppSidebar } from "../../components/app-sidebar"
 import {
