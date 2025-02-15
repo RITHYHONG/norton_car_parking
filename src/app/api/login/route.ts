@@ -1,25 +1,29 @@
 import { NextResponse } from 'next/server';
-import { adminAuth } from '../../../lib/firebaseAdmin';
+import { adminAuth } from '@/lib/firebaseAdmin';
 
 export async function POST(request: Request) {
-  const { idToken } = await request.json();
-
   try {
-    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
-    const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn });
+    const { idToken } = await request.json();
     
+    if (!idToken) {
+      return NextResponse.json(
+        { error: 'No token provided' },
+        { status: 400 }
+      );
+    }
+
+    const decodedToken = await adminAuth.verifyIdToken(idToken);
+    
+    return NextResponse.json({
+      uid: decodedToken.uid,
+      email: decodedToken.email
+    });
+  } catch (error: any) {
+    console.error('Login error:', error);
     return NextResponse.json(
-      { success: true }, 
-      { 
-        status: 200, 
-        headers: { 
-          'Set-Cookie': `session=${sessionCookie}; Max-Age=${expiresIn}; HttpOnly; Secure; Path=/` 
-        } 
-      }
+      { error: 'Authentication failed' },
+      { status: 401 }
     );
-  } catch (error) {
-    console.error('Session creation error:', error);
-    return NextResponse.json({ error: 'UNAUTHORIZED REQUEST' }, { status: 401 });
   }
 }
 

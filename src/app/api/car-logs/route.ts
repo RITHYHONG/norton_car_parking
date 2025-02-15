@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/firebaseAdmin'
+import { adminDb } from '@/lib/firebaseAdmin'
 
 export async function GET() {
   try {
-    const logsRef = db.collection('car-logs')
+    const logsRef = adminDb.collection('car-logs')
     const snapshot = await logsRef.get()
     const logs = snapshot.docs.map(doc => ({
       id: doc.id,
