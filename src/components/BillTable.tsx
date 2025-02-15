@@ -37,7 +37,11 @@ interface Bill {
   status: 'Paid' | 'Unpaid'
 }
 
-export default function BillTable() {
+interface BillTableProps {
+  searchTerm?: string;
+}
+
+export default function BillTable({ searchTerm = '' }: BillTableProps) {
   const [bills, setBills] = useState<Bill[]>([])
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null)
 
@@ -52,6 +56,12 @@ export default function BillTable() {
     }
     fetchBills()
   }, [])
+
+  const filteredBills = bills.filter((bill) =>
+    bill.plateNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    bill.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    bill.status.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <>
@@ -69,7 +79,7 @@ export default function BillTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {bills.map((bill) => (
+          {filteredBills.map((bill) => (
             <TableRow key={bill.id} className="h-12">
               <TableCell className="font-medium py-2">{bill.id}</TableCell>
               <TableCell className="py-2">{bill.plateNumber}</TableCell>
@@ -77,8 +87,8 @@ export default function BillTable() {
               <TableCell className="py-2 hidden md:table-cell">{bill.exitTime}</TableCell>
               <TableCell className="py-2 hidden md:table-cell">{bill.duration}</TableCell>
               <TableCell className="text-right py-2 hidden md:table-cell">${bill.amount.toFixed(2)}</TableCell>
-              <TableCell className="py-2">
-                <Badge variant={bill.status === 'Paid' ? 'default' : 'destructive'}>
+              <TableCell className="py-2 ">
+                <Badge className='flex justify-center' variant={bill.status === 'Paid' ? 'default' : 'destructive'}>
                   {bill.status}
                 </Badge>
               </TableCell>

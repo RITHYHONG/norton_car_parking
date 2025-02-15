@@ -1,7 +1,6 @@
-"use client";
-import Image from 'next/image';
-import { CarLog } from '@/types/carLog';
-import { formatDate } from '@/utils/dateFormatter';
+'use client'
+
+import { useState, useEffect } from 'react'
 import {
   Table,
   TableBody,
@@ -9,136 +8,86 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from '@/components/ui/button';
-import { Badge } from "@/components/ui/badge";
-import { useState } from 'react';
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { CarLog } from '@/types/carLog'
 
-interface CarLogsTableProps {
-  logs: CarLog[];
-}
+const mockLogs: CarLog[] = [
+  {
+    id: '1',
+    plateNumber: 'ABC123',
+    entryTime: '2024-01-20T10:00:00',
+    exitTime: '2024-01-20T12:00:00',
+    duration: '2 hours',
+    fee: 10,
+    status: 'exited'
+  },
+  {
+    id: '2',
+    plateNumber: 'XYZ789',
+    entryTime: '2024-01-20T11:00:00',
+    status: 'parked'
+  },
+]
 
-export default function CarLogsTable({ logs }: CarLogsTableProps) {
-  const [selectedLog, setSelectedLog] = useState<CarLog | null>(null);
+export default function CarLogsTable() {
+  const [logs, setLogs] = useState<CarLog[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate API call
+    const fetchLogs = async () => {
+      try {
+        // Replace with actual API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        setLogs(mockLogs)
+      } catch (error) {
+        console.error('Error fetching logs:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLogs()
+  }, [])
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString()
+  }
+
+  if (loading) {
+    return <div className="flex justify-center p-4">Loading...</div>
+  }
 
   return (
-    <div className="border rounded-md">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Plate Number</TableHead>
-            <TableHead>Entry Time</TableHead>
-            <TableHead>Exit Time</TableHead>
-            <TableHead>Slot Number</TableHead>
-            <TableHead>License Plate Image</TableHead>
-            <TableHead className="text-right py-2 flex justify-center">Action</TableHead>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Plate Number</TableHead>
+          <TableHead>Entry Time</TableHead>
+          <TableHead>Exit Time</TableHead>
+          <TableHead>Duration</TableHead>
+          <TableHead>Fee</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {logs.map((log) => (
+          <TableRow key={log.id}>
+            <TableCell>{log.plateNumber}</TableCell>
+            <TableCell>{formatDate(log.entryTime)}</TableCell>
+            <TableCell>{log.exitTime ? formatDate(log.exitTime) : '-'}</TableCell>
+            <TableCell>{log.duration || '-'}</TableCell>
+            <TableCell>{log.fee ? `$${log.fee}` : '-'}</TableCell>
+            <TableCell>
+              <Badge variant={log.status === 'parked' ? 'default' : 'secondary'}>
+                {log.status}
+              </Badge>
+            </TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {logs.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell>{log.plateNumber}</TableCell>
-              <TableCell>{formatDate(log.entryTime)}</TableCell>
-              <TableCell>{formatDate(log.exitTime)}</TableCell>
-              <TableCell>{log.slotNumber}</TableCell>
-              <TableCell>
-                <Image
-                  src={log.licensePlateImage}
-                  alt={`License plate ${log.plateNumber}`}
-                  width={100}
-                  height={50}
-                  className="object-cover rounded-md"
-                />
-              </TableCell>
-              <TableCell className="text-right flex justify-center items-center">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => setSelectedLog(log)}
-                          >
-                            View
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Car Log Details</DialogTitle>
-                            <DialogDescription>
-                              Detailed information about the car log entry.
-                            </DialogDescription>
-                          </DialogHeader>
-                          {selectedLog && (
-                            <div className="grid gap-4 py-4">
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Log ID:</span>
-                                <span>{selectedLog.id}</span>
-                              </div>
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Plate Number:</span>
-                                <span>{selectedLog.plateNumber}</span>
-                              </div>
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Entry Time:</span>
-                                <span>{formatDate(selectedLog.entryTime)}</span>
-                              </div>
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Exit Time:</span>
-                                <span>{formatDate(selectedLog.exitTime)}</span>
-                              </div>
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Slot Number:</span>
-                                <span>{selectedLog.slotNumber}</span>
-                              </div>
-                              <div className="grid grid-cols-2 items-center gap-4">
-                                <span className="font-bold">Status:</span>
-                                <Badge variant={selectedLog.exitTime ? "default" : "secondary"}>
-                                  {selectedLog.exitTime ? "Exited" : "Parked"}
-                                </Badge>
-                              </div>
-                              <div className="grid grid-cols-1 items-center gap-4">
-                                <span className="font-bold">License Plate Image:</span>
-                                <Image
-                                  src={selectedLog.licensePlateImage}
-                                  alt={`License plate ${selectedLog.plateNumber}`}
-                                  width={200}
-                                  height={100}
-                                  className="object-cover rounded-md"
-                                />
-                              </div>
-                            </div>
-                          )}
-                        </DialogContent>
-                      </Dialog>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>View car log details</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
+        ))}
+      </TableBody>
+    </Table>
+  )
 }
 

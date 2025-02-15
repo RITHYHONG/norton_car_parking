@@ -1,0 +1,58 @@
+'use client'
+
+import { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import { Card, CardContent } from "@/components/ui/card"
+import { Search, Download } from 'lucide-react'
+import { usePDF } from 'react-to-pdf'
+import { DateRange } from 'react-day-picker'
+import BillTable from './BillTable'
+import { HeaderNav } from './HeaderNav'
+
+export function BillsContent() {
+  const { toPDF, targetRef } = usePDF({filename: 'parking-bills.pdf'});
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({ 
+    from: new Date(), 
+    to: new Date() 
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+
+  return (
+    <>
+      <HeaderNav title="Bills" />
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Parking Bills</h1>
+        <Card className="mb-6">
+          <CardContent className="p-1 md:p-1 md border-0">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="flex items-center gap-2 w-full md:w-auto">
+                <Input 
+                  placeholder="Search bills..." 
+                  className="w-full md:w-64"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <Button variant="outline" size="icon">
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex items-center gap-2 w-full md:w-auto">
+                <DatePickerWithRange date={dateRange} setDate={setDateRange} />
+                <Button variant="outline" onClick={() => toPDF()}>
+                  <Download className="mr-2 h-4 w-4" /> Export PDF
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-0" ref={targetRef}>
+            <BillTable searchTerm={searchTerm} />
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}

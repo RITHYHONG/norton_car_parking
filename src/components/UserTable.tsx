@@ -81,7 +81,6 @@ export function UserTable({ searchQuery }: UserTableProps) {
                   </Avatar>
                   <div className="flex flex-col">
                     <span className="font-medium">{user.name}</span>
-                 
                   </div>
                 </div>
               </TableCell>
