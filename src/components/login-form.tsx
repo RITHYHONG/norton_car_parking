@@ -75,6 +75,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
           required
           disabled={isLoading}
           className="bg-background"
+          autoComplete="email"
         />
         <div className="relative">
           <Input
@@ -85,6 +86,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
             required
             disabled={isLoading}
             className="bg-background pr-10"
+            autoComplete="current-password"
           />
           <Button
             type="button"

@@ -21,7 +21,7 @@ export default function VerifyOTP() {
   useEffect(() => {
     const email = sessionStorage.getItem('userEmail')
     if (!email) {
-      router.replace('/login')
+      router.replace('/dashboard')
       return
     }
 
@@ -55,26 +55,22 @@ export default function VerifyOTP() {
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (timeLeft <= 0) {
-      setError("Verification code has expired. Please request a new one.")
-      return
-    }
-
     setIsVerifying(true)
     setError("")
 
     try {
       const code = otp.join('')
-      if (!/^\d{6}$/.test(code)) {
-        throw new Error("Please enter a valid 6-digit code")
-      }
-
       const isValid = await verifyOTP(code)
       
       if (isValid) {
         sessionStorage.removeItem('userEmail')
-        toast.success('Email verified successfully!')
-        router.push('/dashboard')
+        toast.success('Verification successful!')
+        
+        // Small delay to ensure state is updated
+        setTimeout(() => {
+          router.push('/dashboard')
+          router.refresh() // Force router refresh
+        }, 1000)
       } else {
         setAttempts(prev => prev - 1)
         if (attempts <= 1) {
@@ -161,7 +157,7 @@ export default function VerifyOTP() {
             <Button 
               variant="link" 
               className="w-full"
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/dashboard')}
             >
               Back to Login
             </Button>

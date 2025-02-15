@@ -34,7 +34,10 @@ export function CarLogsContent() {
                 </Button>
               </div>
               <div className="flex items-center gap-2 w-full md:w-auto">
-                <DatePickerWithRange date={dateRange} setDate={setDateRange} />
+                <DatePickerWithRange
+                  value={dateRange}
+                  onChange={setDateRange}
+                />
                 <Button variant="outline" onClick={() => toPDF()}>
                   <Download className="mr-2 h-4 w-4" /> Export PDF
                 </Button>

@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator, browserLocalPersistence, setPersistence } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,9 +13,18 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
-// Set persistence and custom domain
-auth.settings = {
-  appVerificationDisabledForTesting: false
-};
+// Set persistence to LOCAL
+setPersistence(auth, browserLocalPersistence);
+
+// Only connect to emulator in development
+if (process.env.NODE_ENV === 'development') {
+  if (window.location.hostname === 'localhost') {
+    try {
+      connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+    } catch (error) {
+      console.warn('Auth emulator connection error:', error);
+    }
+  }
+}
 
 export { auth };

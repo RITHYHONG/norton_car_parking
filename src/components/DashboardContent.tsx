@@ -56,7 +56,37 @@ export function DashboardContent() {
               <p className="text-xs text-muted-foreground">20 available</p>
             </CardContent>
           </Card>
-          {/* ... Other stat cards ... */}
+          
+          <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Cars Parked Today</CardTitle>
+                  <Car className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">250</div>
+                  <p className="text-xs text-muted-foreground">+15% from yesterday</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Revenue Today</CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">$1,250</div>
+                  <p className="text-xs text-muted-foreground">+5% from yesterday</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">120</div>
+                  <p className="text-xs text-muted-foreground">+2 new users today</p>
+                </CardContent>
+              </Card>
         </div>
         <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
           <Card className="lg:col-span-4">

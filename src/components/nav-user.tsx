@@ -2,8 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Settings, ChevronsUpDown, LogOut } from 'lucide-react'
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { logout } from "@/lib/auth-service";
 
 import {
   Avatar,
@@ -40,8 +39,7 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      router.push('/login');
+      await logout(); // Use our logout function instead of direct signOut
     } catch (error) {
       console.error("Error signing out: ", error);
     }

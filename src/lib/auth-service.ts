@@ -1,29 +1,18 @@
 import { auth } from './firebase'
-import { 
-  applyActionCode,
-  signInWithEmailAndPassword,
-  User 
-} from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut, User } from 'firebase/auth'
 import { OTPService } from './otp-service'
 import { sendVerificationEmail } from './email-service'
-
-export class AuthError extends Error {
-  code: string
-  constructor(message: string, code: string) {
-    super(message)
-    this.code = code
-  }
-}
+import { cookies } from 'next/headers'
 
 export async function signInWithEmail(email: string, password: string): Promise<User> {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
     const user = userCredential.user
-
-    // Generate and send OTP after successful login
+    
+    // Generate and send OTP
     const otp = OTPService.createOTP(email)
     await sendVerificationEmail(email, otp)
-
+    
     return user
   } catch (error: any) {
     const errorMessage = getErrorMessage(error.code)
@@ -47,19 +36,33 @@ function getErrorMessage(code: string): string {
   }
 }
 
-export async function completeEmailVerification(oobCode: string): Promise<void> {
-  try {
-    await applyActionCode(auth, oobCode)
-  } catch (error: any) {
-    throw new Error('Failed to verify email')
-  }
-}
-
 export async function verifyOTP(code: string): Promise<boolean> {
   try {
-    return OTPService.verifyOTP(code)
+    const isValid = OTPService.verifyOTP(code)
+    if (isValid) {
+      // Set auth state in both localStorage and cookie
+      localStorage.setItem('isAuthenticated', 'true')
+      document.cookie = 'isAuthenticated=true; path=/; max-age=86400' // 24 hours
+    }
+    return isValid
   } catch (error) {
     console.error('OTP verification error:', error)
     throw new Error('Failed to verify code')
+  }
+}
+
+export async function logout(): Promise<void> {
+  try {
+    await signOut(auth)
+    // Clear all auth states
+    localStorage.clear()
+    sessionStorage.clear()
+    // Clear the authentication cookie
+    document.cookie = 'isAuthenticated=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    // Force redirect to login
+    window.location.href = '/login'
+  } catch (error) {
+    console.error('Logout error:', error)
+    throw new Error('Failed to logout')
   }
 }
