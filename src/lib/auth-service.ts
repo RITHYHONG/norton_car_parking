@@ -40,9 +40,8 @@ export async function verifyOTP(code: string): Promise<boolean> {
   try {
     const isValid = OTPService.verifyOTP(code)
     if (isValid) {
-      // Set auth state in both localStorage and cookie
       localStorage.setItem('isAuthenticated', 'true')
-      document.cookie = 'isAuthenticated=true; path=/; max-age=86400' // 24 hours
+      document.cookie = 'isAuthenticated=true; path=/; max-age=86400'
     }
     return isValid
   } catch (error) {
